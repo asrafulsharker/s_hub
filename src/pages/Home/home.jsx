@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React , { useState }  from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -19,13 +19,13 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Card from '@mui/material/Card';
+import Container from '@mui/material/Container';
+import Data from '../../data';
+
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import img1 from '../../logo.svg';
-import Container from '@mui/material/Container';
-
-
+import './home.css';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -52,6 +52,9 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
 }));
+
+
+
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
@@ -129,6 +132,33 @@ export default function SearchAppBar() {
 
 
 
+
+
+
+      
+  const [filter, setFilter] = useState('');
+
+
+  const [noOfElement, setnoOfElement] = useState(4);
+  const loadmore = () =>{
+    setnoOfElement(noOfElement + noOfElement);
+  }
+  let slice = Data.softwares.slice(0, noOfElement);
+
+
+
+  const searchText = (event) =>{
+    setFilter(event.target.value);
+  }
+
+  let dataSearch = Data.softwares.filter(item =>{
+    return Object.keys(item).some(key =>
+      item[key].toString().toLowerCase().includes(filter.toString().toLowerCase())
+      )
+  })
+
+
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -165,38 +195,50 @@ export default function SearchAppBar() {
             HUBSBD
           </Typography>
           <Search>
-            <SearchIconWrapper>
+            <SearchIconWrapper >
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              value={filter} 
+              onChange={searchText.bind(this)}
             />
           </Search>
         </Toolbar>
       </AppBar>
-      <Container maxWidth="lg">
-      <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
-        component="img"
-        alt="green iguana"
-        height="140"
-        image={img1}
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Lizard
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
+      <Container className='card_box' maxWidth="lg">
+      {/* <Card/>
+       */}
+       {dataSearch.map((software) => (
+        
+                <Card className='card_item'  key={software._id} sx={{ maxWidth: 345 }}>
+                    
+                    <CardMedia
+                        component="img"
+                        alt="green iguana"
+                        height="140"
+                        image={software.image}
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                        {software.name}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                        {software.discription}
+                        </Typography>
+                    </CardContent>
+                    <CardActions>
+                        <Button size="small">Share</Button>
+                        <Button size="small">Learn More</Button>
+                    </CardActions>
+                </Card>
+                
+              ))
+            }
+
+
+
     </Container>
     </Box>
   );
