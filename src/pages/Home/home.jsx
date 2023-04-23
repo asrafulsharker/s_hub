@@ -157,6 +157,20 @@ export default function SearchAppBar() {
       )
   })
 
+  
+
+  
+
+
+  // const description = document.getElementById('description').textContent.split(' ');
+  // if (description.length > 10) {
+  //   description.textContent = description.slice(0, 10).join(' ') + '...';
+  // }
+
+
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const words = dataSearch.discription.split(' ');
+
 
 
   return (
@@ -212,7 +226,8 @@ export default function SearchAppBar() {
        */}
        {dataSearch.map((software) => (
         
-                <Card className='card_item'  key={software._id} sx={{ maxWidth: 345 }}>
+        
+                <Card className='card_item' key={software._id} sx={{ maxWidth: 345 }}>
                     
                     <CardMedia
                         component="img"
@@ -224,7 +239,13 @@ export default function SearchAppBar() {
                         <Typography gutterBottom variant="h5" component="div">
                         {software.name}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2" color="text.secondary" >
+
+
+                        {software.discription ? software.discription : `${words.slice(0, 10).join(' ')}...`}
+
+
+
                         {software.discription}
                         </Typography>
                     </CardContent>
