@@ -1,4 +1,4 @@
-import React , { useState }  from 'react';
+import React, { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -26,6 +26,23 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import './home.css';
+import Modal from '@mui/material/Modal';
+
+
+
+// modal 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 800,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -76,100 +93,116 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function SearchAppBar() {
 
 
-    // left bar 
-    const [state, setState] = React.useState({
-        left: false,
-    
-      });
+  // left bar 
+  const [state, setState] = React.useState({
+    left: false,
 
-      const toggleDrawer = (anchor, open) => (event) => {
-        if (
-          event &&
-          event.type === 'keydown' &&
-          (event.key === 'Tab' || event.key === 'Shift')
-        ) {
-          return;
-        }
-    
-        setState({ ...state, [anchor]: open });
-      };
+  });
 
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
 
-      const list = (anchor) => (
-        <Box
-          sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
-          role="presentation"
-          onClick={toggleDrawer(anchor, false)}
-          onKeyDown={toggleDrawer(anchor, false)}
-        >
-          <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      );
+    setState({ ...state, [anchor]: open });
+  };
 
 
+  const list = (anchor) => (
+    <Box
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      <List>
+        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
 
 
 
 
-      
+
+
+
   const [filter, setFilter] = useState('');
 
 
   const [noOfElement, setnoOfElement] = useState(4);
-  const loadmore = () =>{
+  const loadmore = () => {
     setnoOfElement(noOfElement + noOfElement);
   }
   let slice = Data.softwares.slice(0, noOfElement);
 
 
 
-  const searchText = (event) =>{
+  const searchText = (event) => {
     setFilter(event.target.value);
   }
 
-  let dataSearch = Data.softwares.filter(item =>{
-    return Object.keys(item).some(key =>
-      item[key].toString().toLowerCase().includes(filter.toString().toLowerCase())
+
+  let dataSearch = Data.softwares.filter(item => {
+    return (
+      Object.keys(item).some(key =>
+        item[key].toString().toLowerCase().includes(filter.toString().toLowerCase())
       )
+
+    )
+
   })
 
-  
 
-  
-
+  let sw = dataSearch;
+  console.log(Data.softwares.name)
 
   // const description = document.getElementById('description').textContent.split(' ');
   // if (description.length > 10) {
   //   description.textContent = description.slice(0, 10).join(' ') + '...';
   // }
 
+  // const truncatedDescription = description.split(' ').slice(0, 10).join(' ') + '...';
 
-  const [showFullDescription, setShowFullDescription] = useState(false);
-  const words = dataSearch.discription.split(' ');
+  const [visibleCards, setVisibleCards] = useState(6);
+
+
+  const loadMore = () => {
+    setVisibleCards(visibleCards + 6);
+    // Increase the visibleCards count by 6 when the user clicks "Load More"
+  };
+
+
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
 
 
@@ -185,20 +218,20 @@ export default function SearchAppBar() {
             sx={{ mr: 2 }}
           >
             <div>
-            {['left'].map((anchor) => (
-        <React.Fragment key={anchor}>
-          <MenuIcon onClick={toggleDrawer(anchor, true)}>{anchor}</MenuIcon>
-          <SwipeableDrawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-            onOpen={toggleDrawer(anchor, true)}
-          >
-            {list(anchor)}
-          </SwipeableDrawer>
-        </React.Fragment>
-      ))}
-      </div>
+              {['left'].map((anchor) => (
+                <React.Fragment key={anchor}>
+                  <MenuIcon onClick={toggleDrawer(anchor, true)}>{anchor}</MenuIcon>
+                  <SwipeableDrawer
+                    anchor={anchor}
+                    open={state[anchor]}
+                    onClose={toggleDrawer(anchor, false)}
+                    onOpen={toggleDrawer(anchor, true)}
+                  >
+                    {list(anchor)}
+                  </SwipeableDrawer>
+                </React.Fragment>
+              ))}
+            </div>
           </IconButton>
           <Typography
             variant="h6"
@@ -215,52 +248,100 @@ export default function SearchAppBar() {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
-              value={filter} 
+              value={filter}
               onChange={searchText.bind(this)}
             />
           </Search>
         </Toolbar>
       </AppBar>
-      <Container className='card_box' maxWidth="lg">
-      {/* <Card/>
+      <div className='cotainer_box'>
+
+
+        <Container className='card_box' maxWidth="lg">
+          {/* <Card/>
        */}
-       {dataSearch.map((software) => (
-        
-        
-                <Card className='card_item' key={software._id} sx={{ maxWidth: 345 }}>
-                    
-                    <CardMedia
-                        component="img"
-                        alt="green iguana"
-                        height="140"
-                        image={software.image}
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                        {software.name}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" >
+          {dataSearch.slice(0, visibleCards).map((software) => (
 
 
-                        {software.discription ? software.discription : `${words.slice(0, 10).join(' ')}...`}
+            <Card className='card_item' key={software._id} sx={{ maxWidth: 345 }}>
+
+              <CardMedia
+                component="img"
+                alt="green iguana"
+                height="140"
+                image={software.image}
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {software.name.length > 2 ? software.name.split(' ').slice(0, 2).join(' ') + ' ' : software.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary" >
 
 
+                  {/* {software.discription ? software.discription : `${words.slice(0, 10).join(' ')}...`} */}
 
-                        {software.discription}
-                        </Typography>
-                    </CardContent>
-                    <CardActions>
-                        <Button size="small">Share</Button>
-                        <Button size="small">Learn More</Button>
-                    </CardActions>
-                </Card>
-                
-              ))
-            }
+                  {software.discription.length > 15 ? software.discription.split(' ').slice(0, 15).join(' ') + '...' : software.discription}
+                </Typography>
 
 
 
-    </Container>
+                <Modal
+            keepMounted
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="keep-mounted-modal-title"
+            aria-describedby="keep-mounted-modal-description"
+          >
+            
+            <div className="modal_style">
+              
+              <div className="modal_main">
+                <p className="modal_title">
+                {software.name}
+                </p>
+                <div className="modal_part">
+                  <div className="modal_st">
+
+                  </div>
+                  <div className="modal_nd">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Modal>
+
+              </CardContent>
+              <CardActions>
+                <Button size="small">Share</Button>
+                <Button size="small" onClick={handleOpen}>Learn More</Button>
+              </CardActions>
+
+
+
+              
+            </Card>
+
+
+
+          ))
+          }
+
+
+
+          {/* modal  */}
+          
+
+
+
+
+        </Container>
+        {visibleCards < dataSearch.length && (
+          <Button onClick={loadMore} className='home_load_button' variant="outlined">Load More</Button>
+
+        )}
+
+      </div>
     </Box>
   );
 }

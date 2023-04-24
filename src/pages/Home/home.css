@@ -1,9 +1,33 @@
-.card_box{
+.card_box {
     display: flex !important;
     align-items: center !important;
     flex-wrap: wrap !important;
     justify-content: space-between;
 }
-.card_item{
+
+.card_item {
     margin-top: 20px !important;
+}
+
+.home_load_button {
+    align-items: center;
+    margin-top: 20px !important;
+}
+
+.cotainer_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.modal_style {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    background-color: white;
+    border: 1px solid #4c4c4c;
+    box-shadow: 24;
 }
