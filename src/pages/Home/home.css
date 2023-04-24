@@ -19,6 +19,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    margin-bottom: 5vh !important;
 }
 
 .modal_style {
@@ -31,3 +32,125 @@
     border: 1px solid #4c4c4c;
     box-shadow: 24;
 }
+a{
+    text-decoration: none !important;
+}
+.modal_st h3{
+    text-align: center;
+}
+
+header{
+    background-color: black !important;
+    position: fixed !important;
+    z-index: 100;
+}
+
+.big_searchbar{
+    background-image: url(../../image/search.gif);
+    background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10%;
+  box-shadow: 1px 2px 5px 0px rgba(0,0,0,0.75);
+}
+
+.big_searchbar_search{
+    width: 70%;
+    height: 50px;
+    background-color: transparent !important;
+    color: white;
+    font-size: 20px;
+    border: 1px solid white;
+    outline: none;
+    border-radius: 10px;
+    box-shadow: 1px 2px 5px 0px rgba(0,0,0,0.75);
+
+}
+
+.big_searchbar_search::placeholder{
+    color: white;
+    font-size: 20px;
+}
+
+
+.movie_title p{
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.movie_title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0px;
+}
+
+
+
+.text-container{
+    padding: 10px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-container > span {
+    text-transform: uppercase;
+    animation: glow 2s ease-in-out infinite;
+    font-size: 50px;
+    font-family: 'Cabin', sans-serif;
+font-family: 'Lato', sans-serif;
+color: rgb(82, 254, 70)  !important;
+  }
+  
+  @keyframes glow {
+    0%, 100% {
+      color: #FFF;
+      text-shadow: 0 0 10px #0652DD, 0 0 50px #0652DD, 0 0 100px #0652DD;
+    }
+    
+    10%, 90% {
+      color: #111;
+      text-shadow: none;
+    }
+  }
+  
+  .text-container > span:nth-child(2) {
+      animation-delay: 0.25s;
+  }
+  
+  .text-container > span:nth-child(3) {
+      animation-delay: 0.5s;
+  }
+  
+  .text-container > span:nth-child(4) {
+      animation-delay: 0.75s;
+  }
+  
+  .text-container > span:nth-child(5) {
+      animation-delay: 1s;
+  }
+  
+  .text-container > span:nth-child(6) {
+      animation-delay: 1.25s;
+  }
+  
+  .text-container > span:nth-child(7) {
+      animation-delay: 1.5s;
+  }
+
+
+
+
+
+
+
+
+
+
+
+  

@@ -21,6 +21,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Data from '../../data';
+import M_Data from '../../data_m';
 
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -160,7 +161,7 @@ export default function SearchAppBar() {
   const loadmore = () => {
     setnoOfElement(noOfElement + noOfElement);
   }
-  let slice = Data.softwares.slice(0, noOfElement);
+  let slice = M_Data.softwares.slice(0, noOfElement);
 
 
 
@@ -169,7 +170,7 @@ export default function SearchAppBar() {
   }
 
 
-  let dataSearch = Data.softwares.filter(item => {
+  let dataSearch = M_Data.softwares.filter(item => {
     return (
       Object.keys(item).some(key =>
         item[key].toString().toLowerCase().includes(filter.toString().toLowerCase())
@@ -254,93 +255,208 @@ export default function SearchAppBar() {
           </Search>
         </Toolbar>
       </AppBar>
-      <div className='cotainer_box'>
 
 
-        <Container className='card_box' maxWidth="lg">
-          {/* <Card/>
-       */}
-          {dataSearch.slice(0, visibleCards).map((software) => (
+      <div className="big_searchbar">
+        <input className='big_searchbar_search' placeholder="Search…"
+          inputProps={{ 'aria-label': 'search' }}
+          value={filter}
+          onChange={searchText.bind(this)} type="text" />
+      </div>
+      <div className="movie_box">
+        <div className="movie_title">
+          <div class="text-container">
+            <span>N</span>
+            <span>E</span>
+            <span>W</span>
+            <span>&nbsp;</span>
+            <span>release</span>
+            <span>&nbsp;</span>
+            <span>M</span>
+            <span>O</span>
+            <span>V</span>
+            <span>E</span>
+          </div>
+        </div>
+        <div className='cotainer_box'>
+
+          <Container className='card_box' maxWidth="lg">
+            {/* <Card/>
+ */}
+            { dataSearch.slice(0, visibleCards).map((software) => (
 
 
-            <Card className='card_item' key={software._id} sx={{ maxWidth: 345 }}>
+              <Card className='card_item' key={software._id} sx={{ maxWidth: 345 }}>
 
-              <CardMedia
-                component="img"
-                alt="green iguana"
-                height="140"
-                image={software.image}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {software.name.length > 2 ? software.name.split(' ').slice(0, 2).join(' ') + ' ' : software.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" >
+                <CardMedia
+                  component="img"
+                  alt="green iguana"
+                  height="140"
+                  image={software.image}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {software.name.length > 2 ? software.name.split(' ').slice(0, 2).join(' ') + ' ' : software.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" >
 
+                    {software.discription.length > 15 ? software.discription.split(' ').slice(0, 15).join(' ') + '...' : software.discription}
+                  </Typography>
+                  <Modal
+                    keepMounted
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="keep-mounted-modal-title"
+                    aria-describedby="keep-mounted-modal-description"
+                  >
+                    <div className="modal_style">
 
-                  {/* {software.discription ? software.discription : `${words.slice(0, 10).join(' ')}...`} */}
-
-                  {software.discription.length > 15 ? software.discription.split(' ').slice(0, 15).join(' ') + '...' : software.discription}
-                </Typography>
-
-
-
-                <Modal
-            keepMounted
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="keep-mounted-modal-title"
-            aria-describedby="keep-mounted-modal-description"
-          >
-            
-            <div className="modal_style">
-              
-              <div className="modal_main">
-                <p className="modal_title">
-                {software.name}
+                      <div className="modal_main">
+                        {/* <p className="modal_title">
+                  {software._id}
                 </p>
-                <div className="modal_part">
-                  <div className="modal_st">
+                <p>{software.download_link}</p> */}
+                        <div className="modal_part">
+                          <div className="modal_st">
+                            <h3>Coming Soon.........</h3>
+                          </div>
+                          <div className="modal_nd">
 
-                  </div>
-                  <div className="modal_nd">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Modal>
 
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Modal>
+                </CardContent>
+                <CardActions>
+                  <Button size="small"><a href={software.download_link}>Download</a></Button>
+                  <Button size="small" onClick={handleOpen}>Learn More</Button>
+                </CardActions>
+              </Card>
+            ))
+            }
 
-              </CardContent>
-              <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small" onClick={handleOpen}>Learn More</Button>
-              </CardActions>
+            {/* modal  */}
+          </Container>
+
+          {visibleCards < dataSearch.length && (
+            <Button onClick={loadMore} className='home_load_button' variant="outlined">Load More</Button>
+
+          )}
+
+        </div>
+      </div>
+      <div className="software_box">
+        <div className='cotainer_box'>
+
+          <div class="text-container">
+            <span>U</span>
+            <span>S</span>
+            <span>E</span>
+            <span>F</span>
+            <span>U</span>
+            <span>L</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>S</span>
+            <span>O</span>
+            <span>F</span>
+            <span>T</span>
+            <span>W</span>
+            <span>A</span>
+            <span>R</span>
+            <span>E</span>
+          </div>
+          <Container className='card_box' maxWidth="lg">
+            {/* <Card/>
+ */}
+            {dataSearch.slice(0, visibleCards).map((software) => (
 
 
+              <Card className='card_item' key={software._id} sx={{ maxWidth: 345 }}>
 
-              
-            </Card>
+                <CardMedia
+                  component="img"
+                  alt="green iguana"
+                  height="140"
+                  image={software.image}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {software.name.length > 2 ? software.name.split(' ').slice(0, 2).join(' ') + ' ' : software.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" >
 
+                    {software.discription.length > 15 ? software.discription.split(' ').slice(0, 15).join(' ') + '...' : software.discription}
+                  </Typography>
+                  <Modal
+                    keepMounted
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="keep-mounted-modal-title"
+                    aria-describedby="keep-mounted-modal-description"
+                  >
+                    <div className="modal_style">
 
+                      <div className="modal_main">
+                        {/* <p className="modal_title">
+                  {software._id}
+                </p>
+                <p>{software.download_link}</p> */}
+                        <div className="modal_part">
+                          <div className="modal_st">
+                            <h3>Coming Soon.........</h3>
+                          </div>
+                          <div className="modal_nd">
 
-          ))
-          }
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Modal>
 
+                </CardContent>
+                <CardActions>
+                  <Button size="small"><a href={software.download_link}>Download</a></Button>
+                  <Button size="small" onClick={handleOpen}>Learn More</Button>
+                </CardActions>
+              </Card>
+            ))
+            }
 
+            {/* modal  */}
+          </Container>
 
-          {/* modal  */}
-          
+          {visibleCards < dataSearch.length && (
+            <Button onClick={loadMore} className='home_load_button' variant="outlined">Load More</Button>
 
+          )}
 
+        </div>
+      </div>
 
+      <div class="text-container">
 
-        </Container>
-        {visibleCards < dataSearch.length && (
-          <Button onClick={loadMore} className='home_load_button' variant="outlined">Load More</Button>
-
-        )}
-
+        <span>MANY</span>
+        <span>&nbsp;</span>
+        <span>&nbsp;</span>
+        <span>MORE</span>
+        <span>&nbsp;</span>
+        <span>&nbsp;</span>
+        <span>FEATURES</span>
+        <span>&nbsp;</span>
+        <span>&nbsp;</span>
+        <span>ARE</span>
+        <span>&nbsp;</span>
+        <span>&nbsp;</span>
+        <span>COMING</span>
+        <span>&nbsp;</span>
+        <span>&nbsp;</span>
+        <span>SOON</span>
+        <span>.</span>
+        <span>.</span>
+        <span>.</span>
       </div>
     </Box>
   );
